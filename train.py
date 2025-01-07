@@ -13,10 +13,8 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader, RandomSampler
 
-from nets.yolo import YoloBody
-# from nets.yolo_csfa_chsa import YoloBody
-# from nets.csfaV2_HRFPN import YoloBody
-# from nets.yolo_HR_pyramid import YoloBody
+
+from nets.SO_YOLO import YoloBody
 from nets.yolo_training import (Loss, ModelEMA, get_lr_scheduler,
                                 set_optimizer_lr, weights_init)
 from utils.callbacks import EvalCallback, LossHistory
@@ -78,7 +76,7 @@ if __name__ == "__main__":
     #   classes_path    指向model_data下的txt，与自己训练的数据集相关 
     #                   训练前一定要修改classes_path，使其对应自己的数据集
     #---------------------------------------------------------------------#
-    classes_path    = 'dataset/train/classes.txt'
+    classes_path    = 'path/to/your/dataset/classes.txt'
     #----------------------------------------------------------------------------------------------------------------------------#
     #   权值文件的下载请看README，可以通过网盘下载。模型的 预训练权重 对不同数据集是通用的，因为特征是通用的。
     #   模型的 预训练权重 比较重要的部分是 主干特征提取网络的权值部分，用于进行特征提取。
@@ -111,14 +109,14 @@ if __name__ == "__main__":
     #                   l : 对应yolov8_l
     #                   x : 对应yolov8_x
     #------------------------------------------------------#
-    phi             = 'n'
+    phi             = 's'
     #----------------------------------------------------------------------------------------------------------------------------#
     #   pretrained      是否使用主干网络的预训练权重，此处使用的是主干的权重，因此是在模型构建的时候进行加载的。
     #                   如果设置了model_path，则主干的权值无需加载，pretrained的值无意义。
     #                   如果不设置model_path，pretrained = True，此时仅加载主干开始训练。
     #                   如果不设置model_path，pretrained = False，Freeze_Train = Fasle，此时从0开始训练，且没有冻结主干的过程。
     #----------------------------------------------------------------------------------------------------------------------------#
-    pretrained      = True
+    pretrained      = False
     #------------------------------------------------------------------#
     #   mosaic              马赛克数据增强。
     #   mosaic_prob         每个step有多少概率使用mosaic数据增强，默认50%。
@@ -227,7 +225,7 @@ if __name__ == "__main__":
     #------------------------------------------------------------------#
     #   save_dir        权值与日志文件保存的文件夹
     #------------------------------------------------------------------#
-    save_dir            = 'visdrone/log1231_benchmark_n'
+    save_dir            = 'logs'
     #------------------------------------------------------------------#
     #   eval_flag       是否在训练时进行评估，评估对象为验证集
     #                   安装pycocotools库后，评估体验更佳。
@@ -250,8 +248,8 @@ if __name__ == "__main__":
     #   train_annotation_path   训练图片路径和标签
     #   val_annotation_path     验证图片路径和标签
     #------------------------------------------------------#
-    train_annotation_path   = 'dataset/train/train.txt'
-    val_annotation_path     = 'dataset/test/test.txt'
+    train_annotation_path   = 'path/to/your/train.txt'
+    val_annotation_path     = 'path/to/your/val.txt'
 
     seed_everything(seed)
     #------------------------------------------------------#
