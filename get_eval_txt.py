@@ -8,10 +8,7 @@ import torch
 import torch.nn as nn
 from PIL import Image, ImageDraw, ImageFont
 
-from nets.yolo import YoloBody
-# from nets.baseline_csfaV2_CE import YoloBody
-# from nets.yolo_HR_pyramid import YoloBody
-# from nets.csfaV2_HRFPN import YoloBody
+from nets.SO_YOLO import YoloBody
 from utils.utils import (cvtColor, get_classes, preprocess_input,
                          resize_image, show_config)
 from utils.utils_bbox import DecodeBox
@@ -448,12 +445,12 @@ class YOLO(object):
 
 
 if __name__=="__main__":
-    yolo = YOLO(phi='n', model_path="visdrone/log1231_benchmark_n/best_epoch_weights.pth", classes_path="dataset/train/classes.txt",
+    yolo = YOLO(phi='n', model_path="path/to/your/model.pth", classes_path="path/to/your/dataset/classes.txt",
                 confidence=0.01, nms_iou=0.5)
-    save_dir = "eval_txt/log1231_benchmark_n"
+    save_dir = "path/to/your/save/dir"
     if not os.path.exists(save_dir):
         os.mkdir(save_dir)
-    im_dir = "dataset/test/images"
+    im_dir = "path/to/your/test/images"
     im_list = os.listdir(im_dir)
     # im_list = [os.path.join(im_dir, i) for i in im_list]
     for im_name in tqdm(im_list):
