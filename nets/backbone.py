@@ -318,7 +318,7 @@ class Backbone(nn.Module):
         #-----------------------------------------------#
         x = self.dark5(x)
         feat3 = x
-        return  feat1, feat2, feat3
+        return  feat0, feat1, feat2, feat3
 
 
 if __name__=="__main__":
